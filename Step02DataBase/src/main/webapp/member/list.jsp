@@ -44,6 +44,9 @@
 					<td><%=tmp.getName() %></td>
 					<td><%=tmp.getAddr() %></td>
 					<td>
+						<a href="updateform.jsp?num=<%=tmp.getNum() %>">수정</a> <!-- 상대경로로 작성 -->
+					</td>
+					<td>
 						<a href="delete.jsp?num=<%=tmp.getNum() %>">
 							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
   								<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
