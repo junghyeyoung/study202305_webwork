@@ -3,41 +3,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	int num=Integer.parseInt(request.getParameter("num"));
-	GuestDto dto=GuestDao.getInstance().getData(num);
-	
-%>
+   //1. 수정할 글번호를 읽어온다.
+   int num=Integer.parseInt(request.getParameter("num"));
+   //2. 글번호에 해당하는 글의 정보를 DB 에서 얻어온다.
+   GuestDto dto=GuestDao.getInstance().getData(num);
+   //3. 수정폼을 응답한다.
+%>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>/guest/updateform.jsp</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
 </head>
 <body>
-	<div class="container">
-		<h3><strong>방명록 수정</strong></h3>
-		<form action="update.jsp" method="post">
-			<div class="mb-1">
-				<label for="num" class="form-label">번호</label>
-				<input type="text" id="num" name="num" value="<%=dto.getNum() %>" readonly />
-			</div>
-			<div class="mb-1">
-				<label for="writer" class="form-label">작성자</label>
-				<input type="text" id="writer" name="writer" value="<%=dto.getWriter() %>" />
-			</div>
-			<div class="mb-1">
-				<label for="content">내용</label><br>
-				<textarea name="content" id="content" cols="30" rows="10"><%=dto.getContent() %></textarea>
-			</div>
-			<div class="mb-1">
-				<label for="pwd" class="form-label">비밀번호</label>
-				<input type="password" id="pwd" name="pwd" />
-			</div>
-			<button class="btn btn-outline-primary" type="submit">수정완료</button>
-			<button class="btn btn-outline-warning" type="reset">취소</button>
-		</form>
-	</div>
+   <div class="container">
+      <h1>방명록 글 수정 폼</h1>
+      <form action="${pageContext.request.contextPath }/guest/update.jsp" method="post">
+         <div>
+            <label for="num">번호</label>
+            <input type="text" id="num" name="num" value="<%=dto.getNum() %>" readonly/>
+         </div>
+         <div>
+            <label for="writer">작성자</label>
+            <input type="text" id="writer" name="writer" value="<%=dto.getWriter()%>"/>
+         </div>
+         <div>
+            <label for="content">내용</label><br>
+            <textarea id="content" name="content" rows="5"><%=dto.getContent() %></textarea>
+         </div>
+         <div>
+            <label for="pwd">글 작성시 입력했던 비밀번호</label>
+            <input type="password" id="pwd" name="pwd"/>
+         </div>
+         <button type="submit">수정확인</button>
+         <button type="reset">취소</button>
+      </form>
+   </div>
 </body>
 </html>

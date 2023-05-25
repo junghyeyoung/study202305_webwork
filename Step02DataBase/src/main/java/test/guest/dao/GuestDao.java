@@ -28,7 +28,7 @@ public class GuestDao {
 			conn = new DbcpBean().getConn();
 			String sql = "UPDATE board_guest"
 					+ " SET writer=?, content=?"
-					+ " WHERE num=? and pwd=?" ;
+					+ " WHERE num=? AND pwd=?" ;
 			pstmt = conn.prepareStatement(sql);
 			//실행할 sql 문이 미완성이라면 여기서 완성
 			pstmt.setString(1, dto.getWriter());
@@ -65,7 +65,7 @@ public class GuestDao {
 			//DbcpBean 객체를 이용해서 Connection 객체를 얻어온다(Connection Pool에서 얻어오기)
 			conn = new DbcpBean().getConn();
 			//실행할 sql문
-			String sql = "SELECT writer, content, regdate"
+			String sql = "SELECT num, writer, content, pwd, regdate"
 					+ " FROM board_guest"
 					+ " WHERE num=?";
 			pstmt = conn.prepareStatement(sql);
@@ -79,7 +79,9 @@ public class GuestDao {
 				dto.setNum(num);
 				dto.setWriter(rs.getString("writer"));
 				dto.setContent(rs.getString("content"));
+				dto.setPwd(rs.getString("pwd"));
 				dto.setRegdate(rs.getDate("regdate"));
+				
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -96,17 +98,18 @@ public class GuestDao {
 		return dto;
 	}
 	//방명록 한줄을 삭제하는 메소드
-	public boolean delete(int num) {
+	public boolean delete(GuestDto dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int rowCount = 0;
 		try {
 			conn = new DbcpBean().getConn();
 			String sql = "DELETE FROM board_guest"
-					+ " WHERE num=? ";
+					+ " WHERE num=? AND pwd=?";
 			pstmt = conn.prepareStatement(sql);
 			//실행할 sql 문이 미완성이라면 여기서 완성
-			pstmt.setInt(1,num);
+			pstmt.setInt(1, dto.getNum());
+			pstmt.setString(2, dto.getPwd());
 			//sql 문을 수행하고 변화된(추가, 수정, 삭제된) row 의 갯수 리턴 받기
 			rowCount = pstmt.executeUpdate();
 		} catch (SQLException se) {

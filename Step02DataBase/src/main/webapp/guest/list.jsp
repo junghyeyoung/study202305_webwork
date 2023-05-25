@@ -18,6 +18,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
 </head>
 <body>
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="guest" name="current"/>
+	</jsp:include>
 	<br>
 	<div class="container-md">
 		<h3><strong>방명록 목록</strong>입니다.</h3>
@@ -30,7 +33,7 @@
 			<span class="visually-hidden">방명록 내용추가</span>
 			</a>
 		</div>
-	<table class="table table-sm">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th scope="col">번호</th>
@@ -56,12 +59,11 @@
 					</a>
 				</td>
 				<td>
-					<a href="delete.jsp?num=<%=tmp.getNum() %>">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-  							<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
-						</svg>
-						<span class="visually-hidden">삭제</span>
-					</a>	
+					<form action="delete.jsp" method="post">
+						<input type="hidden" name="num" value="<%=tmp.getNum() %>" />
+						<input type="password" name="pwd" placeholder="비밀번호..."/>
+						<button class="btn btn-secondary btn-sm" type="submit">삭제</button>
+					</form>
 				</td>
 			</tr>
 		<%} %>

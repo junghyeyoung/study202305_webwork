@@ -18,8 +18,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
 </head>
 <body>
+	<!-- navbar 출력하기 -->
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="member" name="current"/>
+	</jsp:include>
+	<br>
 	<div class="container-md">
-		<h2><strong>회원 목록</strong>입니다.</h2>
+		<h3><strong>회원 목록</strong>입니다.</h3>
 		<div class="text-end">
 			<a href="insertform.jsp">
 				<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
