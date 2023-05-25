@@ -24,7 +24,7 @@
 		<form action="update.jsp" method="post">
 			<div class="mb-1">
 				<label for="num" class="form-label">번호</label>
-				<input type="text" class="form-control" id="num" name="num" value="<%=dto.getNum()%>"/>
+				<input type="text" class="form-control" id="num" name="num" value="<%=dto.getNum()%>" readonly/>
 			</div>
 			<div class="mb-1">
 				<label for="name" class="form-label">이름</label>
