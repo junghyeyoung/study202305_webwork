@@ -16,6 +16,7 @@
 			<li><a href="${pageContext.request.contextPath }/member">회원 한명의 정보 보기</a></li>
 			<li><a href="${pageContext.request.contextPath }/friend/list">친구 이름 목록보기</a></li>
 			<li><a href="${pageContext.request.contextPath }/member/list">회원 목록보기</a></li>
+			<li><a href="${pageContext.request.contextPath }/test/play.jsp">놀러가기(로그인된 클라이언트만 가능)</a></li>
 		</ul>
 		<form action="${pageContext.request.contextPath }/test/save.jsp" method="post">
 			<input type="text" name="nick" placeholder="닉네임 입력..." />
