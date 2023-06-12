@@ -1,10 +1,9 @@
-<%@page import="test.file.dao.FileDao"%>
-<%@page import="test.file.dto.FileDto"%>
+<%@page import="test.cafe.dao.CafeDao"%>
 <%@page import="java.util.List"%>
+<%@page import="test.cafe.dto.CafeDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-
    //한 페이지에 몇개씩 표시할 것인지
    final int PAGE_ROW_COUNT=5;
    //하단 페이지를 몇개씩 표시할 것인지
@@ -19,8 +18,8 @@
    if(strPageNum != null){
       //숫자로 바꿔서 보여줄 페이지 번호로 지정한다.
       pageNum=Integer.parseInt(strPageNum);
-   }      
-
+   }   
+   
    //보여줄 페이지의 시작 ROWNUM
    int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
    //보여줄 페이지의 끝 ROWNUM
@@ -31,69 +30,59 @@
    //하단 끝 페이지 번호
    int endPageNum=startPageNum+PAGE_DISPLAY_COUNT-1;
    //전체 글의 갯수
-   int totalRow=FileDao.getInstance().getCount();
+   int totalRow=CafeDao.getInstance().getCount();
    //전체 페이지의 갯수 구하기
    int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
    //끝 페이지 번호가 이미 전체 페이지 갯수보다 크게 계산되었다면 잘못된 값이다.
    if(endPageNum > totalPageCount){
       endPageNum=totalPageCount; //보정해 준다. 
    }
-      
-
-   //FileDto 에 startRowNum 과 endRowNum 을 담아서 
-   FileDto dto=new FileDto();
+   
+   //CafeDto 객체를 생성해서 
+   CafeDto dto=new CafeDto();
+   //위에서 계산된 startRowNum 과 endRowNum 을 담고
    dto.setStartRowNum(startRowNum);
    dto.setEndRowNum(endRowNum);
    
-   //파일 목록을 얻어온다.
-   List<FileDto> list=FileDao.getInstance().getList(dto);
-   //로그인된 아이디( 로그인이 되어있지 않으면 null 이다)
-   String id=(String)session.getAttribute("id");
+   //CafeDto 를 인자로 전달해서 글목록 얻어오기
+   List<CafeDto> list=CafeDao.getInstance().getList(dto);
 %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/file/list.jsp</title>
+<title>/cafe/list.jsp</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" />
 </head>
 <body>
-   <div class="container">
-      <a href="${pageContext.request.contextPath }/file/private/upload_form.jsp">업로드 하기</a>
-      <br>
-      <a href="${pageContext.request.contextPath }/file/private/upload_form2.jsp">ajax 업로드 하기</a>
-      <h1>자료실 목록입니다.</h1>
-      <table>
-         <thead>
-            <tr>
-               <th>번호</th>
-               <th>작성자</th>
-               <th>제목</th>
-               <th>파일명</th>
-               <th>등록일</th>
-               <th>삭제</th>
-            </tr>
-         </thead>
-         <tbody>
-         <%for(FileDto tmp:list){ %>
-            <tr>
-               <td><%=tmp.getNum() %></td>
-               <td><%=tmp.getWriter() %></td>
-               <td><%=tmp.getTitle() %></td>
-               <td>
-                  <a href="download.jsp?num=<%=tmp.getNum() %>"><%=tmp.getOrgFileName() %></a>
-               </td>
-               <td><%=tmp.getRegdate() %></td>
-               <td>
-                  <%-- 글작성자와 로그인된 아이디와 같을때만 삭제 링크 출력하기 --%>
-                  <%if(tmp.getWriter().equals(id)){ %>
-                     <a href="delete.jsp?num=<%=tmp.getNum() %>">삭제</a>
-                  <%} %>
-               </td>
-            </tr>
-         <%} %>   
-         </tbody>
-      </table>
+<div class="container">
+   <h1>게시글 목록 입니다</h1>
+   <a href="private/insertform.jsp">새글 작성</a>
+   <table class="table table-striped">
+      <thead class="table-dark">
+         <tr>
+            <th>글번호</th>
+            <th>작성자</th>
+            <th>제목</th>
+            <th>조회수</th>
+            <th>등록일</th>
+         </tr>
+      </thead>
+      <tbody>
+      <%for(CafeDto tmp:list){ %>
+         <tr>
+            <td><%=tmp.getNum() %></td>
+            <td><%=tmp.getWriter() %></td>
+            <td>
+            	<a href="detail.jsp?num=<%=tmp.getNum() %>"><%=tmp.getTitle() %></a>
+            </td>
+            <td><%=tmp.getViewCount() %></td>
+            <td><%=tmp.getRegdate() %></td>
+         </tr>
+      <%} %>   
+      </tbody>
+   </table>
+   <nav>
       <ul class="pagination">
          <%--
             startPageNum 이 1 이 아닌 경우에만 Prev 링크를 제공한다. 
@@ -116,7 +105,8 @@
                <a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>">Next</a>
             </li>
          <%} %>
-      </ul>
-   </div>
+      </ul>      
+   </nav>
+</div>
 </body>
 </html>

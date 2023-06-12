@@ -20,6 +20,41 @@ public class UsersDao {
       }
       return dao;
    }
+   //개인정보를 수정하는 메소드
+   public boolean update(UsersDto dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "UPDATE users"
+					+ " SET email=?, profile=?"
+					+ " WHERE id=?";
+			pstmt = conn.prepareStatement(sql);
+			//실행할 sql 문이 미완성이라면 여기서 완성
+			pstmt.setString(1, dto.getEmail());
+			pstmt.setString(2, dto.getProfile());
+			pstmt.setString(3, dto.getId());
+			//sql 문을 수행하고 변화된(추가, 수정, 삭제된) row 의 갯수 리턴 받기
+			rowCount = pstmt.executeUpdate();
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		//만일 변화된 row 의 갯수가 0 보다 크면 작업 성공
+		if (rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+   }
    //비밀번호를 수정하는 메소드
    public boolean updatePwd(UsersDto dto) {
 		Connection conn = null;

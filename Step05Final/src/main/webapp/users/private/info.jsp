@@ -37,6 +37,7 @@
             <td>
                <%if(dto.getProfile() == null){ %>
                   등록된 이미지 없음
+                  
                <%}else{ %>
                   <img id="profileImage" src="${pageContext.request.contextPath }<%=dto.getProfile() %>" />
                <%} %>
@@ -57,6 +58,7 @@
             <td><%=dto.getRegdate() %></td>
          </tr>
       </table>
+      <a href="updateform.jsp">개인정보 수정</a>
    </div>
 </body>
 </html>
