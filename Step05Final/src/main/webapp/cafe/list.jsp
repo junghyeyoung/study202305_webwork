@@ -55,58 +55,63 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" />
 </head>
 <body>
-<div class="container">
-   <h1>게시글 목록 입니다</h1>
-   <a href="private/insertform.jsp">새글 작성</a>
-   <table class="table table-striped">
-      <thead class="table-dark">
-         <tr>
-            <th>글번호</th>
-            <th>작성자</th>
-            <th>제목</th>
-            <th>조회수</th>
-            <th>등록일</th>
-         </tr>
-      </thead>
-      <tbody>
-      <%for(CafeDto tmp:list){ %>
-         <tr>
-            <td><%=tmp.getNum() %></td>
-            <td><%=tmp.getWriter() %></td>
-            <td>
-            	<a href="detail.jsp?num=<%=tmp.getNum() %>"><%=tmp.getTitle() %></a>
-            </td>
-            <td><%=tmp.getViewCount() %></td>
-            <td><%=tmp.getRegdate() %></td>
-         </tr>
-      <%} %>   
-      </tbody>
-   </table>
-   <nav>
-      <ul class="pagination">
-         <%--
-            startPageNum 이 1 이 아닌 경우에만 Prev 링크를 제공한다. 
-         --%>
-         <%if(startPageNum != 1){ %>
-            <li class="page-item">
-               <a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>">Prev</a>
-            </li>
-         <%} %>
-         <%for(int i=startPageNum; i<=endPageNum; i++){ %>
-            <li class="page-item <%= i==pageNum ? "active":"" %>">
-               <a class="page-link" href="list.jsp?pageNum=<%=i %>"><%=i %></a>
-            </li>
-         <%} %>
-         <%--
-            마지막 페이지 번호가 전체 페이지의 갯수보다 작으면 Next 링크를 제공한다. 
-         --%>
-         <%if(endPageNum < totalPageCount){ %>
-            <li class="page-item">
-               <a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>">Next</a>
-            </li>
-         <%} %>
-      </ul>      
-   </nav>
-</div>
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="cafe" name="current"/>
+	</jsp:include>
+	<div class="container">
+	   	<h1>게시글 목록 입니다</h1>
+	   	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+			<a class="btn btn-primary btn-sm me-md-2" href="private/insertform.jsp" role="button">새글 작성</a>
+		</div>
+	   <table class="table table-striped">
+	      <thead class="table-dark">
+	         <tr>
+	            <th>글번호</th>
+	            <th>작성자</th>
+	            <th>제목</th>
+	            <th>조회수</th>
+	            <th>등록일</th>
+	         </tr>
+	      </thead>
+	      <tbody>
+	      <%for(CafeDto tmp:list){ %>
+	         <tr>
+	            <td><%=tmp.getNum() %></td>
+	            <td><%=tmp.getWriter() %></td>
+	            <td>
+	            	<a href="detail.jsp?num=<%=tmp.getNum() %>"><%=tmp.getTitle() %></a>
+	            </td>
+	            <td><%=tmp.getViewCount() %></td>
+	            <td><%=tmp.getRegdate() %></td>
+	         </tr>
+	      <%} %>   
+	      </tbody>
+	   </table>
+	   <nav>
+	      <ul class="pagination">
+	         <%--
+	            startPageNum 이 1 이 아닌 경우에만 Prev 링크를 제공한다. 
+	         --%>
+	         <%if(startPageNum != 1){ %>
+	            <li class="page-item">
+	               <a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>">Prev</a>
+	            </li>
+	         <%} %>
+	         <%for(int i=startPageNum; i<=endPageNum; i++){ %>
+	            <li class="page-item <%= i==pageNum ? "active":"" %>">
+	               <a class="page-link" href="list.jsp?pageNum=<%=i %>"><%=i %></a>
+	            </li>
+	         <%} %>
+	         <%--
+	            마지막 페이지 번호가 전체 페이지의 갯수보다 작으면 Next 링크를 제공한다. 
+	         --%>
+	         <%if(endPageNum < totalPageCount){ %>
+	            <li class="page-item">
+	               <a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>">Next</a>
+	            </li>
+	         <%} %>
+	      </ul>      
+	   </nav>
+	</div>
 </body>
 </html>
